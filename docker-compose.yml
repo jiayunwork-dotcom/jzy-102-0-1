@@ -1,0 +1,19 @@
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: terrain-backend
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: terrain-frontend
+    ports:
+      # Only this single address is exposed; nginx proxies /api to the backend.
+      - "8080:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
